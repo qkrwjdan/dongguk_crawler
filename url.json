@@ -1,0 +1,78 @@
+[
+    {
+        "일반공지" : { 
+            "url" : "https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3646&id=kr_010802000000",
+            "title" : {
+                "tag" : "",
+                "class" : "",
+                "id" : ""
+            },
+            "date" : {
+                "tag" : "",
+                "class" : "",
+                "id" : ""
+            }
+        }
+
+    },
+    
+    {
+        "학사공지" : {
+            "url" : "https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3638&id=kr_010801000000",
+            "tag" : ""
+        }
+    },
+
+    {
+        "장학공지" : {
+            "url" : "https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3662&id=kr_010804000000"
+        }
+    },
+
+    {
+        "공과대학공지" : {
+        
+            "url" : "http://engineer.dongguk.edu/en5_1",
+            "title" : {
+                "tag" : "div",
+                "class" : "bo_tit"
+            },
+            "date" : {
+                "tag" : "span",
+                "class" : "s-day"
+            }
+        }
+    },
+    
+
+    {
+        "정보통신공학과공지" : {
+            
+            "url" : "https://ice.dongguk.edu/?page_id=18518",
+            "title" : {
+                "tag" : "td",
+                "class" : "kboard-list-title"
+            },
+            "date" : {
+                "tag" : "td",
+                "class" : "kboard-list-date"
+            }
+        }
+    },
+
+    {
+        "근로장학공고게시판" : {
+        
+            "url" : "https://scholarship.dongguk.edu/sc2_2_n",
+            "title" : {
+                "tag" : "div",
+                "class" : "bo_tit"
+            },
+            "date" : {
+                "tag" : "td",
+                "class" : "td_datetime"
+            }
+        }
+    }
+    
+]
