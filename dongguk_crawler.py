@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 from dotenv import load_dotenv
 
 import json
@@ -124,4 +123,4 @@ while True:
         print("메일을 보냅니다.")
         send_mail(["madogisa12@naver.com"],"제목",send_string)
 
-    time.sleep(60)        
+    time.sleep(3600)
