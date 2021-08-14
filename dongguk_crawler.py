@@ -9,6 +9,7 @@ import smtplib
 from email.mime.text import MIMEText
 import warnings
 import time
+import datetime
 warnings.filterwarnings('ignore')
 
 load_dotenv()
@@ -44,8 +45,10 @@ with open("url.json", encoding="utf-8") as json_file:
     urls = json.load(json_file)
 
 while True:
+    print(datetime.datetime.now(), "탐색을 시작합니다. ")
 
     send_data = []
+    time.time()
 
     for info in urls:
         # data 가져오기 
