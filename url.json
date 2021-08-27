@@ -1,6 +1,7 @@
 [
     {
         "일반공지" : { 
+            "base_url" : "https://www.dongguk.edu/mbs/kr/jsp/board",
             "url" : "https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3646&id=kr_010802000000",
             "title" : {
                 "tag" : "",
@@ -18,6 +19,7 @@
     
     {
         "학사공지" : {
+            "base_url" : "https://www.dongguk.edu/mbs/kr/jsp/board",
             "url" : "https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3638&id=kr_010801000000",
             "tag" : ""
         }
@@ -25,6 +27,7 @@
 
     {
         "장학공지" : {
+            "base_url" : "https://www.dongguk.edu/mbs/kr/jsp/board",
             "url" : "https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3662&id=kr_010804000000"
         }
     },

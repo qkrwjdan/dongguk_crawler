@@ -4,11 +4,16 @@ import requests
 from bs4 import BeautifulSoup
 import pandas
 
+from w3lib.html import remove_tags
+
 import json
 import re
 import csv
 
-with open("url.json", encoding="utf-8") as json_file:
-    urls = json.load(json_file)
-
-print(list(urls[0].keys())[0])
+url = "https://www.dongguk.edu/mbs/kr/jsp/board/view.jsp?spage=1&boardId=3662&boardSeq=26738454&id=kr_010804000000&column=&search=&categoryDepth=&mcategoryId=0"
+print("get")
+page = requests.get(url)
+print(page)
+content = remove_tags(page.content)
+cont = BeautifulSoup(content,'html.parser')
+print(cont)

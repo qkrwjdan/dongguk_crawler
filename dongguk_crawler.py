@@ -19,6 +19,13 @@ COLUMN_NUM = 7
 TITLE_COLUMN = 1
 DATE_COLUMN = 3
 
+class Content():
+    
+    def __init__(self,theme, title, contents, link):
+        self.theme = theme
+        self.title = title
+        self.contents = contents
+        self.link = link
 
 def preprocess_text(text):
     text = re.sub('<.+?>', '', text, 0)
@@ -44,86 +51,103 @@ def send_mail(receivers, subject, content):
 with open("url.json", encoding="utf-8") as json_file:
     urls = json.load(json_file)
 
-while True:
-    print(datetime.datetime.now(), "탐색을 시작합니다. ")
 
-    send_data = []
-    time.time()
+print(datetime.datetime.now(), "탐색을 시작합니다. ")
 
-    for info in urls:
-        # data 가져오기 
-        id = str(list(info.keys())[0])
-        page = requests.get(info[id]["url"], verify=False)
-        soup = BeautifulSoup(page.content, 'html.parser')
+send_data = []
+time.time()
 
-        cleaned_results = []
+for info in urls:
+    # data 가져오기 
+    id = str(list(info.keys())[0])
+    base_url = info[id]["base_url"]
+    page = requests.get(info[id]["url"], verify=False)
+    soup = BeautifulSoup(page.content, 'html.parser')
 
-        # data 정제
-        if id in ["일반공지", "학사공지", "장학공지"]:
+    cleaned_results = []
 
-            results = soup.find_all("td")
+    # data 정제
+    if id in ["일반공지", "학사공지", "장학공지"]:
 
-            for ROW in range(ALL_ROW_NUM):
-                title = str(results[ROW * COLUMN_NUM + TITLE_COLUMN])
-                date = str(results[ROW * COLUMN_NUM + DATE_COLUMN])
+        results = soup.find_all("td")
+        # print(results)
 
-                title = preprocess_text(title)
-                date = preprocess_text(date)
+        for ROW in range(ALL_ROW_NUM):
+            title = str(results[ROW * COLUMN_NUM + TITLE_COLUMN])
+            date = str(results[ROW * COLUMN_NUM + DATE_COLUMN])
 
-                cleaned_results.append([title, date])
+# https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=3646&id=kr_010802000000
+# https://www.dongguk.edu/mbs/kr/jsp/board/view.jsp?spage=1&boardId=3646&boardSeq=26738767&id=kr_010802000000&column=&search=&categoryDepth=&mcategoryId=0
+            print(title)
+            title_soup = BeautifulSoup(title,'html.parser').select_one('a')
+            title = title_soup.get_text()
+            link = title_soup.attrs['href']
+            print(title)
+            print(link)
+            print(base_url+ '/' + link)
+            details = requests.get(base_url + link, verify=False)
+            detail_soup = BeautifulSoup(details.content,'html.parser')
+            print(detail_soup)
+            # title = preprocess_text(title)
+            date = preprocess_text(date)
 
-        elif id in ["공과대학공지", "정보통신공학과공지", "근로장학공고게시판"]:
+            print(details)
 
-            titles = soup.find_all(info[id]["title"]["tag"], {
-                                "class": info[id]["title"]["class"]})
-            dates = soup.find_all(info[id]["date"]["tag"], {
-                                "class": info[id]["date"]["class"]})
+            cleaned_results.append([title, date])
 
-            for title, date in zip(titles, dates):
-                title = preprocess_text(str(title))
-                date = preprocess_text(str(date))
 
-                cleaned_results.append([title, date])
+    #     elif id in ["공과대학공지", "정보통신공학과공지", "근로장학공고게시판"]:
 
-        # 기존 data 가져오기
-        pre_data = []
-        file_name = 'data/'+id+".tsv"
-        with open(file_name, "r") as f:
-            while True:
-                line = f.readline()
-                if not line:
-                    break
-                pre_data.append(line.split("\t"))
+    #         titles = soup.find_all(info[id]["title"]["tag"], {
+    #                             "class": info[id]["title"]["class"]})
+    #         dates = soup.find_all(info[id]["date"]["tag"], {
+    #                             "class": info[id]["date"]["class"]})
 
-        pre_data.reverse()
+    #         for title, date in zip(titles, dates):
+    #             title = preprocess_text(str(title))
+    #             date = preprocess_text(str(date))
 
-        # data 비교하기
+    #             cleaned_results.append([title, date])
 
-        for [title, date] in cleaned_results:
+    #     # 기존 data 가져오기
+    #     pre_data = []
+    #     file_name = 'data/'+id+".tsv"
+    #     with open(file_name, "r") as f:
+    #         while True:
+    #             line = f.readline()
+    #             if not line:
+    #                 break
+    #             pre_data.append(line.split("\t"))
 
-            isExist = False
-            for pre in pre_data:
-                if str(title) == str(pre[0]):
-                    isExist = True
-                    break
+    #     pre_data.reverse()
 
-            if not isExist:
+    #     # data 비교하기
 
-                print(title+"이 존재하지 않습니다.")
+    #     for [title, date] in cleaned_results:
 
-                send_data.append([id,title,date])
+    #         isExist = False
+    #         for pre in pre_data:
+    #             if str(title) == str(pre[0]):
+    #                 isExist = True
+    #                 break
 
-                with open('data/'+id+".tsv", "a") as f:
-                    f.write(title + "\t" + date + "\n")
+    #         if not isExist:
+
+    #             print(title+"이 존재하지 않습니다.")
+
+    #             send_data.append([id,title,date])
+
+    #             with open('data/'+id+".tsv", "a") as f:
+    #                 f.write(title + "\t" + date + "\n")
         
-    # 메일로 보낼 내용 만들기
-    send_string = ""
-    for data in send_data:
-        send_string += "위치 : {noti} , title: {title} , date: {date} \n".format(noti=data[0] , title=data[1], date=data[2])
+    # # 메일로 보낼 내용 만들기
+    # send_string = ""
+    # for data in send_data:
+    #     send_string += "위치 : {noti} , title: {title} , date: {date} \n".format(noti=data[0] , title=data[1], date=data[2])
 
-    # 메일 보내기
-    if send_string:
-        print("메일을 보냅니다.")
-        send_mail(["madogisa12@naver.com"],"제목",send_string)
+    # # 메일 보내기
+    # if send_string:
+    #     print("메일을 보냅니다.")
+    #     send_mail(["madogisa12@naver.com"],"제목",send_string)
 
-    time.sleep(3600)
+    # time.sleep(3600)
