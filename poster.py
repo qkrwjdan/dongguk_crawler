@@ -1,9 +1,11 @@
+from mailer import BaseTemplate
+
 class Post():
     
-    def __init__(self, theme, title, contents, link, date):
+    def __init__(self, theme, title, content, link, date):
         self.theme = theme
         self.title = title
-        self.contents = contents
+        self.content = content
         self.link = link
         self.date = date
 
@@ -12,6 +14,8 @@ class Post():
 
     def __repr__(self):
         return self.title + "-" + self.date
+
+    def __eq__(self, other):
+        return self.title == other.title
+
     
-    def make_mail_content(self):
-        return self.theme + "\n" + self.title + "\n" + self.contents + "\n" + self.link

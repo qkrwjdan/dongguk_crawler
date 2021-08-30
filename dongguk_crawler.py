@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
+import schedule
 import json
 import re
 import os
@@ -12,7 +13,7 @@ import time
 import datetime
 warnings.filterwarnings('ignore')
 
-from mailer import send_mail
+from mailer import BaseTemplate, send_mail
 from poster import Post
 from utils import preprocess_text, get_title_content_link, get_title_content_link_with_info, get_pre_data, check_exist
 
@@ -23,14 +24,14 @@ COLUMN_NUM = 7
 TITLE_COLUMN = 1
 DATE_COLUMN = 3
 
-if __name__ == "__main__":
-
+def crawl():
+    
     with open("url.json", encoding="utf-8") as json_file:
         urls = json.load(json_file)
 
     print(datetime.datetime.now(), "탐색을 시작합니다. ")
 
-    send_data = []
+    send_data = {}
     time.time()
 
     for info in urls:
@@ -43,6 +44,8 @@ if __name__ == "__main__":
         cleaned_results = []
 
         pre_data = get_pre_data(id)
+
+        send_data[id] = []
 
         # data 정제
         if id in ["일반공지", "학사공지", "장학공지"]:
@@ -67,7 +70,7 @@ if __name__ == "__main__":
                     pass
                 else :
                     # 없음
-                    send_data.append(post)
+                    send_data[id].append(post)
 
                     with open('data/'+id+".tsv","a",encoding="utf-8" ) as f:
                         t = post.title
@@ -99,7 +102,7 @@ if __name__ == "__main__":
                     pass
                 else :
                     # 없음
-                    send_data.append(post)
+                    send_data[id].append(post)
 
                     with open('data/'+id+".tsv","a",encoding="utf-8" ) as f:
                         print(post.title)
@@ -107,15 +110,25 @@ if __name__ == "__main__":
 
     print("탐색 끝!")
     print(send_data)
-            
-        # # 메일로 보낼 내용 만들기
-        # send_string = ""
-        # for data in send_data:
-        #     send_string += "위치 : {noti} , title: {title} , date: {date} \n".format(noti=data[0] , title=data[1], date=data[2])
 
-        # # 메일 보내기
-        # if send_string:
-        #     print("메일을 보냅니다.")
-        #     send_mail(["madogisa12@naver.com"],"제목",send_string)
+    template = BaseTemplate()
+    now = datetime.datetime.now()
 
-        # time.sleep(3600)
+    template.header_block(now.strftime("%m/%d/%Y"), now.strftime("%H:%M:%S"))
+
+    for id in send_data:
+        if send_data[id]:
+            template.theme_block(id)
+            for post in send_data[id]:
+                template.content_block(post)
+        
+    template.end_block()
+
+    send_mail(["madogisa12@naver.com"],"hi",template.template)
+
+if __name__ == "__main__":
+
+    while True:
+        schedule.every(2).minutes.do(crawl)
+        schedule.run_pending()
+        time.sleep(1)

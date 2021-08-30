@@ -29,16 +29,17 @@ class BaseTemplate():
 
     def get_template(self, blocks):
         
-        template = ""
+        self.template = ""
         for block in blocks:
-            template += block
+            self.template += block
 
-        self.template = template
+        return self.template
 
-        return template
+    def add_block(self,block):
+        self.template += block
 
     def header_block(self, date, time):
-        return """
+        block =  """
             <html>
             <head></head>
             <body>
@@ -48,23 +49,30 @@ class BaseTemplate():
             <br>
             <span> {date} - {time} </span>
             <hr>""".format(date = date, time = time)
-
+        self.template += block
+        return block
 
     def theme_block(self, theme):
-        return """
+        block = """
             <h2>{theme}</h2>
             """.format(theme = theme)
+        self.template += block
+        return block
 
-    def content_block(self, title, content, link):
-        return """
+    def content_block(self,post):
+        block = """
             <h3 id="-2021-4-"><strong>{title}</strong></h3>
             <p>{content}</p>
-            <p>{link}</p>
+            <p><a href="{link}">이 게시물을 보고싶다면?</p>
             <hr>
-            """.format(title = title,content = content,link = link)
+            """.format(title = post.title,content = post.content,link = post.link)
+        self.template += block
+        return block
     
     def end_block(self):
-        return """
+        block = """
         </body>
         </html>
         """
+        self.template += block
+        return block
