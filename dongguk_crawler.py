@@ -125,9 +125,8 @@ def crawl():
     send_mail(["madogisa12@naver.com"],"hi",template.template)
 
 if __name__ == "__main__":
-
+    send_mail(["madogisa12@naver.com"],"프로그램을 시작합니다.","프로그램을 시작합니다.")
     while True:
-        send_mail(["madogisa12@naver.com"],"프로그램을 시작합니다.","프로그램을 시작합니다.")
         schedule.every().day.at("11:00").do(crawl)
         schedule.every().day.at("16:00").do(crawl)
         schedule.run_pending()
