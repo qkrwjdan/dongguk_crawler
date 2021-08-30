@@ -41,8 +41,6 @@ def crawl():
         page = requests.get(info[id]["url"], verify=False)
         soup = BeautifulSoup(page.content, 'html.parser')
 
-        cleaned_results = []
-
         pre_data = get_pre_data(id)
 
         send_data[id] = []
@@ -129,6 +127,7 @@ def crawl():
 if __name__ == "__main__":
 
     while True:
+        send_mail(["madogisa12@naver.com"],"프로그램을 시작합니다.","프로그램을 시작합니다.")
         schedule.every().day.at("11:00").do(crawl)
         schedule.every().day.at("16:00").do(crawl)
         schedule.run_pending()
