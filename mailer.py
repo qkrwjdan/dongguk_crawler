@@ -22,31 +22,49 @@ def send_mail(receivers, subject, content):
 
     s.quit()
 
-text = "Hi!\nHow are you?\nHere is the link you wanted:\nhttp://www.python.org" 
-html = """
-<html>
-<head></head>
-<body>
-<h1 id="-dongguk-" style='text-align: center;'"><strong>Dongguk 알리미.</strong></h1>
-<pre><code>              새 글을 정리해드릴게요.
+class BaseTemplate():
 
-                    2021<span class="hljs-selector-class">.08</span><span class="hljs-selector-class">.16</span>     13<span class="hljs-selector-pseudo">:32</span>
-</code></pre><hr>
-<p>일반 공지</p>
-<h2 id="-2021-4-"><strong>신규 입주기업 모집 공고(2021년 4차... (제목 전부 나오면 좋겠다.)</strong></h2>
-<p>내용 일부 …</p>
-<p>링크</p>
-<h2 id="-2021-4-"><strong>신규 입주기업 모집 공고(2021년 4차...</strong></h2>
-<p>내용 일부 …</p>
-<p>링크</p>
-<hr>
-<p>학사 공지</p>
-<h2 id="-2021-4-"><strong>신규 입주기업 모집 공고(2021년 4차...</strong></h2>
-<p>내용 일부 …</p>
-<p>링크</p>
-<h2 id="-2021-4-"><strong>신규 입주기업 모집 공고(2021년 4차...</strong></h2>
-<p>내용 일부 …</p>
-<p>링크</p>
-</body>
-</html>
-"""
+    def __init__(self):
+        self.template = ""
+
+    def get_template(self, blocks):
+        
+        template = ""
+        for block in blocks:
+            template += block
+
+        self.template = template
+
+        return template
+
+    def header_block(self, date, time):
+        return """
+            <html>
+            <head></head>
+            <body>
+            <h1 id="-dongguk-" style='text-align: center;'"><strong>Dongguk 알리미.</strong></h1>
+            <pre><code>              새 글을 정리해드릴게요.
+            </code></pre>
+            <br>
+            <span> {date} - {time} </span>
+            <hr>""".format(date = date, time = time)
+
+
+    def theme_block(self, theme):
+        return """
+            <h2>{theme}</h2>
+            """.format(theme = theme)
+
+    def content_block(self, title, content, link):
+        return """
+            <h3 id="-2021-4-"><strong>{title}</strong></h3>
+            <p>{content}</p>
+            <p>{link}</p>
+            <hr>
+            """.format(title = title,content = content,link = link)
+    
+    def end_block(self):
+        return """
+        </body>
+        </html>
+        """
