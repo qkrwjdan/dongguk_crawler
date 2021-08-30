@@ -36,13 +36,26 @@
         "공과대학공지" : {
         
             "url" : "http://engineer.dongguk.edu/en5_1",
+            "base_url" : "http://engineer.dongguk.edu",
             "title" : {
                 "tag" : "div",
-                "class" : "bo_tit"
+                "attr" : "class",
+                "value" : "bo_tit"
             },
             "date" : {
                 "tag" : "span",
-                "class" : "s-day"
+                "attr" : "class",
+                "value" : "s-day"
+            },
+            "detail_title" : {
+                "tag" : "span",
+                "attr" : "class",
+                "value" : "bo_v_tit"
+            },
+            "detail_content" : {
+                "tag" : "div",
+                "attr" : "id",
+                "value" : "bo_v_con"
             }
         }
     },
@@ -52,13 +65,26 @@
         "정보통신공학과공지" : {
             
             "url" : "https://ice.dongguk.edu/?page_id=18518",
+            "base_url" : "https://ice.dongguk.edu/",
             "title" : {
-                "tag" : "td",
-                "class" : "kboard-list-title"
+                "tag" : "div",
+                "attr" : "class",
+                "value" : "cut_strings"
             },
             "date" : {
                 "tag" : "td",
-                "class" : "kboard-list-date"
+                "attr" : "class",
+                "value" : "kboard-list-date"
+            },
+            "detail_title" : {
+                "tag" : "div",
+                "attr" : "class",
+                "value" : "kboard-title"
+            },
+            "detail_content" : {
+                "tag" : "div",
+                "attr" : "class",
+                "value" : "kboard-content"
             }
         }
     },
@@ -67,13 +93,26 @@
         "근로장학공고게시판" : {
         
             "url" : "https://scholarship.dongguk.edu/sc2_2_n",
+            "base_url" : "https://scholarship.dongguk.edu",
             "title" : {
                 "tag" : "div",
-                "class" : "bo_tit"
+                "attr" : "class",
+                "value" : "bo_tit"
             },
             "date" : {
                 "tag" : "td",
-                "class" : "td_datetime"
+                "attr" : "class",
+                "value" : "td_datetime"
+            },
+            "detail_title" : {
+                "tag" : "span",
+                "attr" : "class",
+                "value" : "bo_v_tit"
+            },
+            "detail_content" : {
+                "tag" : "div",
+                "attr" : "id",
+                "value" : "bo_v_con"
             }
         }
     }

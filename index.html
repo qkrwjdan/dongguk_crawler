@@ -1,16 +1,3 @@
-import requests 
-
-import requests
-from bs4 import BeautifulSoup
-import pandas
-
-import json
-import re
-import csv
-
-from mailer import send_mail
-
-html = """
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie"><![endif]--><!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]--><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
@@ -880,7 +867,3 @@ div.preheader {
 table{display:table !important;width:100% !important}.email-flexible-footer .footer__share-button,.email-flexible-footer .email-footer__additional-info{margin-left:20px;margin-right:20px}}
 </style>
 </body></html>
-
-"""
-
-send_mail(["madogisa12@naver.com"],"제목",html)
