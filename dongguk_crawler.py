@@ -129,6 +129,7 @@ def crawl():
 if __name__ == "__main__":
 
     while True:
-        schedule.every(2).minutes.do(crawl)
+        schedule.every().day.at("11:00").do(crawl)
+        schedule.every().day.at("16:00").do(crawl)
         schedule.run_pending()
         time.sleep(1)
