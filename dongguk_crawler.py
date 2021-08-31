@@ -109,6 +109,17 @@ def crawl():
     print("탐색 끝!")
     print(send_data)
 
+    # 중복제거
+    for id in send_data:
+        if send_data[id]:
+            result = []
+            for post in send_data[id]:
+                if post not in result:
+                    result.append(post)
+
+            send_data[id] = result
+
+    # template 만들기
     template = BaseTemplate()
     now = datetime.datetime.now()
 
@@ -121,13 +132,13 @@ def crawl():
                 template.content_block(post)
         
     template.end_block()
-
     send_mail(["madogisa12@naver.com"],"hi",template.template)
 
 if __name__ == "__main__":
     send_mail(["madogisa12@naver.com"],"프로그램을 시작합니다.","프로그램을 시작합니다.")
+    schedule.every().day.at("02:00").do(crawl)
+    schedule.every().day.at("07:00").do(crawl)
+
     while True:
-        schedule.every().day.at("11:00").do(crawl)
-        schedule.every().day.at("16:00").do(crawl)
         schedule.run_pending()
         time.sleep(1)
