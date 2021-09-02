@@ -132,7 +132,8 @@ def crawl():
                 template.content_block(post)
         
     template.end_block()
-    send_mail(["madogisa12@naver.com","eyecandy2514@naver.com","sky990106@naver.com"],"hi",template.template)
+    subject = now.strftime("%Y/%m/%d - %H") + "시의 공지를 알려드려요."
+    send_mail(["madogisa12@naver.com","eyecandy2514@naver.com","sky990106@naver.com"],subject,template.template)
 
 if __name__ == "__main__":
     send_mail(["madogisa12@naver.com"],"프로그램을 시작합니다.","프로그램을 시작합니다.")
