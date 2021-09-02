@@ -5,7 +5,7 @@ class Post():
     def __init__(self, theme, title, content, link, date):
         self.theme = theme
         self.title = title
-        self.content = content
+        self.content = content + "..."
         self.link = link
         self.date = date
 
