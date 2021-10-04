@@ -41,11 +41,11 @@ def send_mail(receivers, subject, content):
     s.login('park.boong.u@gmail.com',os.getenv('MAIL_PASSWORD'))
 
     msg = MIMEMultipart('alternative')
-
+    part = MIMEText(content,"html")
+    msg.attach(part)
+    msg['Subject'] = subject
+    
     for receiver in receivers:
-        part = MIMEText(content,"html")
-        msg.attach(part)
-        msg['Subject'] = subject
         s.sendmail('park.boong.u@gmail.com', receiver, msg.as_string())
 
     s.quit()
